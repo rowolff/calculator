@@ -22,8 +22,20 @@ struct CalculatorBrain {
     private var operations: Dictionary<String, Operation> = [
         "π"   : Operation.constant(Double.pi),
         "e"   : Operation.constant(M_E),
+        "x!"  : Operation.unaryOperation({ (x) -> Double in
+            func factorial(_ n : Double) -> Double {
+                if n == 0 {
+                    return 1
+                } else {
+                    return n * factorial(n-1)
+                }
+            }
+            return factorial(x)
+        }),
         "√"   : Operation.unaryOperation(sqrt),
+        "sin" : Operation.unaryOperation(sin),
         "cos" : Operation.unaryOperation(cos),
+        "tan" : Operation.unaryOperation(tan),
         "±"   : Operation.unaryOperation({ -$0 }),
         "*"   : Operation.binaryOperation({ $0 * $1 }),
         "÷"   : Operation.binaryOperation({ $0 / $1 }),
