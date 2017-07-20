@@ -32,6 +32,12 @@ struct CalculatorBrain {
             }
             return factorial(x)
         }),
+        "x²"  : Operation.unaryOperation({ (x) -> Double in
+            return pow(x, 2)
+        }),
+        "x³"  : Operation.unaryOperation({ (x) -> Double in
+            return pow(x, 3)
+        }),
         "√"   : Operation.unaryOperation(sqrt),
         "sin" : Operation.unaryOperation(sin),
         "cos" : Operation.unaryOperation(cos),
