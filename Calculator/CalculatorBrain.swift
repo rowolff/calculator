@@ -17,6 +17,7 @@ struct CalculatorBrain {
         case unaryOperation((Double) -> Double)
         case binaryOperation((Double, Double) -> Double)
         case equals
+        case reset
     }
     
     private var operations: Dictionary<String, Operation> = [
@@ -32,22 +33,22 @@ struct CalculatorBrain {
             }
             return factorial(x)
         }),
-        "x²"  : Operation.unaryOperation({ (x) -> Double in
-            return pow(x, 2)
-        }),
-        "x³"  : Operation.unaryOperation({ (x) -> Double in
-            return pow(x, 3)
-        }),
+        "x²"  : Operation.unaryOperation({ pow($0, 2) }),
+        "x³"  : Operation.unaryOperation({ pow($0, 3) }),
         "√"   : Operation.unaryOperation(sqrt),
         "sin" : Operation.unaryOperation(sin),
         "cos" : Operation.unaryOperation(cos),
         "tan" : Operation.unaryOperation(tan),
+        "ln"  : Operation.unaryOperation(log),
+        "log₁₀":Operation.unaryOperation(log10),
+        "10ˣ" : Operation.unaryOperation({ pow(10, $0) }),
         "±"   : Operation.unaryOperation({ -$0 }),
         "*"   : Operation.binaryOperation({ $0 * $1 }),
         "÷"   : Operation.binaryOperation({ $0 / $1 }),
         "+"   : Operation.binaryOperation({ $0 + $1 }),
         "-"   : Operation.binaryOperation({ $0 - $1 }),
-        "="   : Operation.equals
+        "="   : Operation.equals,
+        "C"   : Operation.reset
     ]
     
     mutating func performOperation(_ symbol: String) {
@@ -66,6 +67,8 @@ struct CalculatorBrain {
                 }
             case .equals:
                 performPendingBinaryOperation()
+            case .reset:
+                break
             }
         }
     }
